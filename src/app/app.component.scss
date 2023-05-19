@@ -32,17 +32,30 @@
 /* BG VIDEO */
 
 
-.bgVideo{
-  height: 100vh;
+// .bgVideo{
+//   height: 1500px;
+// }
+
+.bgVideo {
+  position: relative;
+  overflow: hidden;
+  height: 130vh;
+  width: 100vw;
+  overflow: hidden;
 }
+
 
 #myVideo {
   position: absolute;
-  right: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  box-sizing: border-box;
+  object-fit: fill;
   z-index: -1;
+  background-size: cover;
   filter: brightness(0.8);
 }
 
