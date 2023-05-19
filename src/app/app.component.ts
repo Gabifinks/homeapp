@@ -1,4 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +12,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.checkScrollPosition();
+    this.initializeHorizontalScroll();
   }
 
   @HostListener('window:scroll')
@@ -23,6 +26,41 @@ export class AppComponent implements OnInit {
 
     this.isScrolled = scrollPosition > windowHeight * 0.2; // Adjust the threshold as needed
   }
-  
 
+  initializeHorizontalScroll() {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const sections: HTMLElement[] = gsap.utils.toArray("section");
+    let maxWidth: number = 0;
+
+    const getMaxWidth = () => {
+      maxWidth = 0;
+      sections.forEach((section: HTMLElement) => {
+        maxWidth += section.offsetWidth;
+      });
+    };
+    getMaxWidth();
+    ScrollTrigger.addEventListener("refreshInit", getMaxWidth);
+
+    gsap.to(sections, {
+      x: () => `-${maxWidth - window.innerWidth}`,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".wrapper",
+        pin: true,
+        scrub: true,
+        end: `+=${maxWidth}`,
+        invalidateOnRefresh: true
+      }
+    });
+
+    sections.forEach((sct: HTMLElement, i: number) => {
+      ScrollTrigger.create({
+        trigger: sct,
+        start: () => `top top-=${(sct.offsetLeft - window.innerWidth / 2) * (maxWidth / (maxWidth - window.innerWidth))}`,
+        end: `+=${sct.offsetWidth * (maxWidth / (maxWidth - window.innerWidth))}`,
+        toggleClass: { targets: sct, className: "active" }
+      });
+    });
+  }
 }
