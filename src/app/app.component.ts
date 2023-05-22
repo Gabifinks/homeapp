@@ -13,6 +13,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.checkScrollPosition();
     this.initializeHorizontalScroll();
+    this.addScrollListener();
+    this.playVideo(); // Play video on page load
   }
 
   @HostListener('window:scroll')
@@ -30,7 +32,7 @@ export class AppComponent implements OnInit {
   initializeHorizontalScroll() {
     gsap.registerPlugin(ScrollTrigger);
 
-    const sections: HTMLElement[] = gsap.utils.toArray("section");
+    const sections: HTMLElement[] = gsap.utils.toArray('section');
     let maxWidth: number = 0;
 
     const getMaxWidth = () => {
@@ -40,13 +42,13 @@ export class AppComponent implements OnInit {
       });
     };
     getMaxWidth();
-    ScrollTrigger.addEventListener("refreshInit", getMaxWidth);
+    ScrollTrigger.addEventListener('refreshInit', getMaxWidth);
 
     gsap.to(sections, {
       x: () => `-${maxWidth - window.innerWidth}`,
-      ease: "none",
+      ease: 'none',
       scrollTrigger: {
-        trigger: ".wrapper",
+        trigger: '.wrapper',
         pin: true,
         scrub: true,
         end: `+=${maxWidth}`,
@@ -57,10 +59,33 @@ export class AppComponent implements OnInit {
     sections.forEach((sct: HTMLElement, i: number) => {
       ScrollTrigger.create({
         trigger: sct,
-        start: () => `top top-=${(sct.offsetLeft - window.innerWidth / 2) * (maxWidth / (maxWidth - window.innerWidth))}`,
+        start: () =>
+          `top top-=${(sct.offsetLeft - window.innerWidth / 2) * (maxWidth / (maxWidth - window.innerWidth))}`,
         end: `+=${sct.offsetWidth * (maxWidth / (maxWidth - window.innerWidth))}`,
-        toggleClass: { targets: sct, className: "active" }
+        toggleClass: { targets: sct, className: 'active' }
       });
     });
   }
+
+  addScrollListener() {
+    window.addEventListener('scroll', () => {
+      const scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const myVideo = document.getElementById('myVideo') as HTMLVideoElement;
+      const zoom = 1 + scroll / 1000; // Adjust the zoom factor as needed
+      myVideo.style.transform = `scale(${zoom})`;
+      myVideo.style.transformOrigin = 'center';
+    });
+  }
+
+  async playVideo() {
+    await this.delay(6000); // Adjust the delay time (in milliseconds) as needed
+    const myVideo = document.getElementById('myVideo') as HTMLVideoElement;
+    myVideo.play();
+  }
+
+
+  delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
 }

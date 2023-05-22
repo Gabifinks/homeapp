@@ -5,7 +5,7 @@
 
 <div class="container" id="main-container">
   <div class="bgVideo">
-    <video autoplay muted loop id="myVideo">
+    <video autoplay loop playsinline preload="auto" id="myVideo" autoplaymutedplaysinline>
       <source src="../assets/img/bg-video.mp4">
     </video>
 
@@ -25,13 +25,15 @@
     </div>
 
     <div class="mouse_scroll" [ngClass]="{'fade-out': isScrolled, 'fade-in': !isScrolled}">
-      <div class="mouse">
-        <div class="wheel"></div>
-      </div>
-      <div>
-        <span class="m_scroll_arrows unu"></span>
-        <span class="m_scroll_arrows doi"></span>
-        <span class="m_scroll_arrows trei"></span>
+      <div class="mouse-container">
+        <div class="mouse">
+          <div class="wheel"></div>
+        </div>
+        <div>
+          <span class="m_scroll_arrows unu"></span>
+          <span class="m_scroll_arrows doi"></span>
+          <span class="m_scroll_arrows trei"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -54,7 +56,7 @@
     <div class="center-marker"></div>
 
     <div class="test">
-      oi sla cliente
+      <h1>oi sla cliente</h1>
     </div>
 
 </div>
