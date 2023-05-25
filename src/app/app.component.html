@@ -7,8 +7,8 @@
 
 <div class="container" id="main-container">
   <div class="bgVideo">
-    <video autoplay loop playsinline preload="auto" id="myVideo" autoplaymutedplaysinline>
-      <source src="../assets/img/bg-video.mp4">
+    <video id="myVideo" oncanplay="this.play()" loop onloadedmetadata="this.muted=true" playsinline>
+      <source src="../assets/video/bg-video.mp4" type="video/mp4">
     </video>
 
     <div class="header">
@@ -58,8 +58,10 @@
     <div class="center-marker"></div>
 
     <div class="test">
-      <img src="../assets/img/santander-logo.png">
+      <div class="bgImg">
+      <img class="logo-santander" src="../assets/img/santander-logo.png">
       <p>Confiado por um dos times mais invoadores do Brasil</p>
+    </div>
     </div>
 
 </div>

@@ -17,20 +17,10 @@ body {
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap');
 
-@keyframes appears {
-  0% {
-    opacity: 0;
-    transform: translateY(100%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-@mixin appears () {
-  animation: appears 2.5s ease-in-out;
-}
+
+
+/* LOAGING PAGE */
 
 
 /* BG VIDEO */
@@ -38,7 +28,6 @@ body {
 
 .bgVideo {
   position: relative;
-  overflow: hidden;
   height: 130vh;
   width: 100vw;
   overflow: hidden;
@@ -60,6 +49,21 @@ body {
 }
 
 /* LOGO + SUBTITLE */
+
+@keyframes appears {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@mixin appears () {
+  animation: appears 2.5s ease-in-out;
+}
 
 .header {
   // margin-top: 18%;
@@ -421,6 +425,7 @@ section {
 
 .test{
   // background-color: pink;
+  z-index: 1000;
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -430,8 +435,10 @@ section {
   flex-direction: column;
 
   p {
-    color: #cfcfcf;
+    color: #f7f7f7;
     font-weight: 900;
+    margin: 0 auto;
+    justify-content: center;
     align-items: center;
     display: flex;
     // border: 2px solid #e8e8e8;
@@ -443,10 +450,19 @@ section {
     // background-color: #f2f2f2;
   };
 
-  img {
+  .logo-santander {
+    display: flex;
+    margin: 0 auto;
     width: 20%;
     display: flex;
     animation: float 6s ease-in-out infinite;
     // background-color: #fff;
   }
+}
+
+.bgImg {
+    height: 90vh;
+    width: 100vw;
+    z-index: -1000;
+    background-image: url(../assets/img/bgImg.png);
 }

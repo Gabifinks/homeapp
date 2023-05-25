@@ -1,20 +1,22 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { enableProdMode } from '@angular/core';
+
+enableProdMode();
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent  {
   isScrolled = false;
 
   ngOnInit() {
     this.checkScrollPosition();
     this.initializeHorizontalScroll();
     this.addScrollListener();
-    this.playVideo(); // Play video on page load
   }
 
   @HostListener('window:scroll')
@@ -26,7 +28,7 @@ export class AppComponent implements OnInit {
     const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
 
-    this.isScrolled = scrollPosition > windowHeight * 0.2; // Adjust the threshold as needed
+    this.isScrolled = scrollPosition > windowHeight * 0.2;
   }
 
   initializeHorizontalScroll() {
@@ -71,21 +73,10 @@ export class AppComponent implements OnInit {
     window.addEventListener('scroll', () => {
       const scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
       const myVideo = document.getElementById('myVideo') as HTMLVideoElement;
-      const zoom = 1 + scroll / 1000; // Adjust the zoom factor as needed
+      const zoom = 1 + scroll / 1000;
       myVideo.style.transform = `scale(${zoom})`;
       myVideo.style.transformOrigin = 'center';
     });
-  }
-
-  async playVideo() {
-    await this.delay(6000); // Adjust the delay time (in milliseconds) as needed
-    const myVideo = document.getElementById('myVideo') as HTMLVideoElement;
-    myVideo.play();
-  }
-
-
-  delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
 }
