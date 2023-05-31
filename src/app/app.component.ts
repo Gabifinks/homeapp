@@ -76,7 +76,26 @@ export class AppComponent  {
       const zoom = 1 + scroll / 1000;
       myVideo.style.transform = `scale(${zoom})`;
       myVideo.style.transformOrigin = 'center';
+
+      const clientDiv = document.querySelector('.client') as HTMLElement;
+      const footer = document.querySelector('.footer') as HTMLElement;
+
+      const clientRect = clientDiv.getBoundingClientRect();
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+
+      if (clientRect.top >= 0 && clientRect.bottom <= windowHeight) {
+        // The client div is fully visible, show the footer
+        footer.style.display = 'block';
+      } else {
+        // The client div is not fully visible, hide the footer
+        footer.style.display = 'none';
+      }
     });
+
+    // Hide the footer initially
+    const footer = document.querySelector('.footer') as HTMLElement;
+    footer.style.display = 'none';
   }
+
 
 }

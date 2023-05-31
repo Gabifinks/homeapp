@@ -23,7 +23,9 @@
     "@types/dom-mediacapture-record": "^1.0.16",
     "@types/gsap": "^3.0.0",
     "gsap": "^3.11.5",
+    "material-icons": "^1.13.7",
     "rxjs": "~6.6.0",
+    "scrolltrigger": "^1.0.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
