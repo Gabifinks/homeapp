@@ -10,13 +10,15 @@ enableProdMode();
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent  {
+export class AppComponent implements OnInit {
   isScrolled = false;
+  footerVisible = false;
 
   ngOnInit() {
     this.checkScrollPosition();
     this.initializeHorizontalScroll();
     this.addScrollListener();
+    this.checkFooterVisibility();
   }
 
   @HostListener('window:scroll')
@@ -25,8 +27,16 @@ export class AppComponent  {
   }
 
   checkScrollPosition() {
-    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+    const scrollPosition =
+      window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop ||
+      0;
+    const windowHeight =
+      window.innerHeight ||
+      document.documentElement.clientHeight ||
+      document.body.clientHeight ||
+      0;
 
     this.isScrolled = scrollPosition > windowHeight * 0.2;
   }
@@ -62,40 +72,51 @@ export class AppComponent  {
       ScrollTrigger.create({
         trigger: sct,
         start: () =>
-          `top top-=${(sct.offsetLeft - window.innerWidth / 2) * (maxWidth / (maxWidth - window.innerWidth))}`,
-        end: `+=${sct.offsetWidth * (maxWidth / (maxWidth - window.innerWidth))}`,
+          `top top-=${(sct.offsetLeft - window.innerWidth / 2) *
+            (maxWidth / (maxWidth - window.innerWidth))}`,
+        end: `+=${sct.offsetWidth *
+          (maxWidth / (maxWidth - window.innerWidth))}`,
         toggleClass: { targets: sct, className: 'active' }
       });
     });
   }
 
   addScrollListener() {
-    window.addEventListener('scroll', () => {
-      const scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      const myVideo = document.getElementById('myVideo') as HTMLVideoElement;
-      const zoom = 1 + scroll / 1000;
-      myVideo.style.transform = `scale(${zoom})`;
-      myVideo.style.transformOrigin = 'center';
-
+    const observer = new IntersectionObserver((entries) => {
       const clientDiv = document.querySelector('.client') as HTMLElement;
       const footer = document.querySelector('.footer') as HTMLElement;
 
-      const clientRect = clientDiv.getBoundingClientRect();
-      const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
-
-      if (clientRect.top >= 0 && clientRect.bottom <= windowHeight) {
+      if (entries[0].isIntersecting) {
         // The client div is fully visible, show the footer
-        footer.style.display = 'block';
+        this.footerVisible = true;
       } else {
         // The client div is not fully visible, hide the footer
-        footer.style.display = 'none';
+        this.footerVisible = false;
       }
+
+      this.checkFooterVisibility();
     });
 
-    // Hide the footer initially
-    const footer = document.querySelector('.footer') as HTMLElement;
-    footer.style.display = 'none';
+    const clientDiv = document.querySelector('.client') as HTMLElement;
+    observer.observe(clientDiv);
   }
+  checkFooterVisibility() {
+    const footer = document.querySelector('.footer') as HTMLElement;
+    const fadeInDuration = 0.2; // Adjust the duration as needed
+    const fadeOutDuration = 0.5; // Adjust the duration as needed
 
-
+    if (this.footerVisible) {
+      footer.style.opacity = '0';
+      footer.style.display = 'block';
+      gsap.to(footer, { opacity: 1, duration: fadeInDuration });
+    } else {
+      gsap.to(footer, {
+        opacity: 0,
+        duration: fadeOutDuration,
+        onComplete: () => {
+          footer.style.display = 'none';
+        }
+      });
+    }
+  }
 }
