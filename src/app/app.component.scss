@@ -371,9 +371,10 @@ body {
 .section {
   font-size: 5rem;
 }
+
 .section--large {
   flex-shrink: 0;
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -387,21 +388,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 46rem;
-}
-.section--dark {
-  height: 100vh;
-  flex-shrink: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: black;
-  // background-color: black;
+  width: 50vw;
 }
 
 section {
   font-weight: 900;
-  transition: color 0.3s;
+  transition: color 0.5s;
 }
 
 

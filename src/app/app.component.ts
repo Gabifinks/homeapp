@@ -2,6 +2,8 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { enableProdMode } from '@angular/core';
+import * as $ from 'jquery';
+
 
 enableProdMode();
 
@@ -14,16 +16,23 @@ export class AppComponent implements OnInit {
   isScrolled = false;
   footerVisible = false;
 
+
   ngOnInit() {
+    $(window).on('beforeunload', function(){
+      $(window).scrollTop(0);
+    });
+
     this.checkScrollPosition();
     this.initializeHorizontalScroll();
     this.addScrollListener();
     this.checkFooterVisibility();
+    this.hideFooterInitially();
   }
 
   @HostListener('window:scroll')
   onWindowScroll() {
     this.checkScrollPosition();
+
   }
 
   checkScrollPosition() {
@@ -99,11 +108,29 @@ export class AppComponent implements OnInit {
 
     const clientDiv = document.querySelector('.client') as HTMLElement;
     observer.observe(clientDiv);
+
+    window.addEventListener('scroll', () => {
+      const scroll =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        0;
+      const myVideo = document.getElementById('myVideo') as HTMLVideoElement;
+      const zoom = 1 + scroll / 1000;
+      myVideo.style.transform = `scale(${zoom})`;
+      myVideo.style.transformOrigin = 'center';
+    });
   }
+
+  hideFooterInitially() {
+    const footer = document.querySelector('.footer') as HTMLElement;
+    footer.style.display = 'none';
+  }
+
   checkFooterVisibility() {
     const footer = document.querySelector('.footer') as HTMLElement;
     const fadeInDuration = 0.2; // Adjust the duration as needed
-    const fadeOutDuration = 0.5; // Adjust the duration as needed
+    const fadeOutDuration = 1; // Adjust the duration as needed
 
     if (this.footerVisible) {
       footer.style.opacity = '0';
